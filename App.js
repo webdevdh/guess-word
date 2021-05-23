@@ -22,7 +22,7 @@ const ScreenShown = props => {
 
   if (isGameOn) {
     content = <GamePlayScreen />;
-  } else if (lifePoints <= 1) {
+  } else if (lifePoints <= 0) {
     content = <GameOverScreen />;
   }
   

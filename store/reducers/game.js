@@ -13,20 +13,20 @@ export default (state = initialState, action) => {
                 lifePoints: 3,
                 gameOn: true
             };
-        case 'END_GAME':
-            return {
-                ...state,
-                gameOn: false
-            };
         case 'ADD_VICTORY_POINT':
             return {
                 ...state,
                 victoryPoints: state.victoryPoints + 1
             };
         case 'REMOVE_LIFE_POINT':
+            let gameOnStatus = true;
+            if (state.lifePoints === 1) {
+                gameOnStatus = false;
+            }
             return {
                 ...state,
-                lifePoints: state.lifePoints - 1
+                lifePoints: state.lifePoints - 1,
+                gameOn: gameOnStatus
             };
         default:
             return state;

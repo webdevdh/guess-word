@@ -38,8 +38,8 @@ const GamePlayScreen = props => {
     };
 
     const afterCheckGuess = () => {
-        if (lifePoints === 1) {
-            dispatch(gameActions.endGame());
+        if (lifePoints === 0) {
+//            dispatch(gameActions.endGame());
             return;
         }
         wordArray.shift();
