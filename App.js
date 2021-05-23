@@ -1,21 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
+import { createStore, combineReducers } from 'redux';
+import { Provider, useSelector } from 'react-redux';
+
+import IntroScreen from './screens/IntroScreen';
+import GamePlayScreen from './screens/GamePlayScreen';
+import GameOverScreen from './screens/GameOverScreen';
+import gameReducer from './store/reducers/game';
+
+const rootReducer = combineReducers({
+  game: gameReducer
+});
+
+const store = createStore(rootReducer);
+
+const ScreenShown = props => {
+  const isGameOn = useSelector(state => state.game.gameOn);
+  const lifePoints = useSelector(state => state.game.lifePoints);
+
+  let content = <IntroScreen />;
+
+  if (isGameOn) {
+    content = <GamePlayScreen />;
+  } else if (lifePoints <= 1) {
+    content = <GameOverScreen />;
+  }
+  
+  return (
+    <View style={{ flex: 1 }}>
+      {content}
+    </View>
+  );
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+        <ScreenShown />
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
